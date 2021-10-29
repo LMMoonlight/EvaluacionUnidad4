@@ -20,6 +20,9 @@ public class CarsGenerator : MonoBehaviour
     CarsMoving CarsMovingCode;
     Vector3 streetX = new Vector3(4.65f, 0, 0);
     Vector3 streetZ = new Vector3(0, 0, 4.65f);
+    string carTag;
+
+    public ObjectPooler objectPooler;
 
     void Start()
     {
@@ -28,15 +31,47 @@ public class CarsGenerator : MonoBehaviour
         StartCoroutine(Generator2());
     }
 
+    string IntToTag(int tipoCarro)
+    {
+        switch (tipoCarro)
+        {
+            case 0:
+                carTag = "CamBlanco";
+                break;
+            case 1:
+                carTag = "CamNaranja";
+                break;
+            case 2:
+                carTag = "CamVerde";
+                break;
+            case 3:
+                carTag = "CarAzul";
+                break;
+            case 4:
+                carTag = "CarBlanco";
+                break;
+            case 5:
+                carTag = "CarRojo";
+                break;
+            case 6:
+                carTag = "Taxi";
+                break;
+        }
+
+        return carTag;
+    }
+
     IEnumerator Generator()
     {
+        
         otherManyCars = Random.Range(1, 5);
 
         for (int i = 0; i < otherManyCars; i++)
         {
-            otherRandCar = Random.Range(0, 6);
-            secondsToWait = Random.Range(0.6f, 2.3f);
-            thisCar=Instantiate(AllCars[otherRandCar], Spawnpoint);
+            otherRandCar = Random.Range(0, 7);        //int
+            secondsToWait = Random.Range(0.6f, 2.3f);   //float
+            //thisCar=Instantiate(AllCars[otherRandCar], Spawnpoint); // INSTANCIA
+            thisCar = objectPooler.SpawnFromPool(IntToTag(otherRandCar), Spawnpoint.position, Spawnpoint.rotation);
             CarsMovingCode = thisCar.GetComponent<CarsMoving>();
             if(gameObject.CompareTag("GenX"))
             {
@@ -61,9 +96,10 @@ public class CarsGenerator : MonoBehaviour
 
         for (int i = 0; i < manyCars; i++)
         {
-            randCar = Random.Range(0, 6);
+            randCar = Random.Range(0, 7);
             secondsToWait = Random.Range(0.6f, 2.3f);
-            thisCar = Instantiate(AllCars[randCar], otherSpawnpoint);
+            //thisCar = Instantiate(AllCars[randCar], otherSpawnpoint);
+            thisCar = objectPooler.SpawnFromPool(IntToTag(randCar), otherSpawnpoint.position, otherSpawnpoint.rotation);
             CarsMovingCode = thisCar.GetComponent<CarsMoving>();
             if (gameObject.CompareTag("GenX"))
             {

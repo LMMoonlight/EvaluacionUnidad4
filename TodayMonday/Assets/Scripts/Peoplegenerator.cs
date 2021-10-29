@@ -22,12 +22,44 @@ public class Peoplegenerator : MonoBehaviour
     float randToPosition2;
     float speed;
     float speed2;
+    string tipoPersona;
+    public ObjectPooler objectPooler;
 
     void Start()
     {
         Tcode = GameObject.Find("Sun&Moon").GetComponent<TIme>();
         StartCoroutine(Generator());
         StartCoroutine(Generator2());
+    }
+
+    string IntToTag(int persona)
+    {
+        switch (persona)
+        {
+            case 0:
+                tipoPersona = "1";
+                break;
+            case 1:
+                tipoPersona = "2";
+                break;
+            case 2:
+                tipoPersona = "3";
+                break;
+            case 3:
+                tipoPersona = "4";
+                break;
+            case 4:
+                tipoPersona = "5";
+                break;
+            case 5:
+                tipoPersona = "6";
+                break;
+            case 6:
+                tipoPersona = "7";
+                break;
+        }
+
+        return tipoPersona;
     }
 
     IEnumerator Generator()
@@ -38,9 +70,10 @@ public class Peoplegenerator : MonoBehaviour
         {
             speed = Random.Range(1.13f, 1.69f);
             randToPosition = Random.Range(-0.279f, 0.3f);
-            randPerson = Random.Range(0, 7);
+            randPerson = Random.Range(0, 8);
             secondsToWait = Random.Range(0.6f, 2.3f);
-            thisPerson = Instantiate(AllPersons[randPerson], Spawnpoint);
+            //thisPerson = Instantiate(AllPersons[randPerson], Spawnpoint);
+            thisPerson = objectPooler.SpawnFromPool(IntToTag(randPerson), Spawnpoint.position, Spawnpoint.rotation);
             peoplewalkCode = thisPerson.GetComponent<WalkingPeople>();
             if (gameObject.CompareTag("GenX"))
             {
@@ -68,9 +101,10 @@ public class Peoplegenerator : MonoBehaviour
         {
             speed2 = Random.Range(1.13f, 1.69f);
             randToPosition2 = Random.Range(-0.279f, 0.3f);
-            randPerson2 = Random.Range(0, 7);
+            randPerson2 = Random.Range(0, 8);
             secondsToWait2 = Random.Range(0.6f, 2.3f);
-            thisPerson2 = Instantiate(AllPersons[randPerson2], Spawnpoint2);
+            //thisPerson2 = Instantiate(AllPersons[randPerson2], Spawnpoint2);
+            thisPerson2 = objectPooler.SpawnFromPool(IntToTag(randPerson2), Spawnpoint2.position, Spawnpoint2.rotation);
             peoepleCodeWalk2 = thisPerson2.GetComponent<WalkingPeople>();
             if (gameObject.CompareTag("GenX"))
             {
