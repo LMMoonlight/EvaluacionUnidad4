@@ -33,7 +33,8 @@ public class WalkingPeople : MonoBehaviour
 
         if(other.CompareTag("End"))
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
